@@ -46,11 +46,11 @@ const newProduct = ref({
 
 const datePicker = ref(false);
 
-const emit = defineEmits(['addProduct']);
+const emit = defineEmits(['add-product']);
 
 const addProduct = () => {
-    if (newProduct.value.name && newProduct.value.batchNumber && newProduct.value.date) {
-        emit('addProduct', newProduct.value);
+    if (newProduct.value.name && newProduct.value.batch && newProduct.value.date) {
+        emit('add-product', { ...newProduct.value });
         newProduct.value = {
             name: '',
             batchNumber: '',

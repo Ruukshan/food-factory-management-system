@@ -2,12 +2,14 @@
   <v-app>
     <v-main>
       <v-container>
-        <v-card-title>Food Factory Management System - Production</v-card-title>
-        <v-card-text>
-          <FormComponent @add-product="addProduct" />
-          <TableComponent :products="products" @delete-product="deleteProduct" />
-          <v-btn color="primary" block class="mt-4" @click="submit">Submit</v-btn>
-        </v-card-text>
+        <v-card>
+          <v-card-title>Food Factory Management System - Production</v-card-title>
+          <v-card-text>
+            <FormComponent @add-product="addProduct" />
+            <TableComponent :products="products" @delete-product="deleteProduct" />
+            <v-btn color="primary" block class="mt-4" @click="submit">Submit</v-btn>
+          </v-card-text>
+        </v-card>
       </v-container>
     </v-main>
   </v-app>
