@@ -4,7 +4,7 @@
             <v-text-field lable="Product name" v-model="newProduct.name"></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-            <v-text-field label="Batch Number" v-model="newProduct.batchNumber"></v-text-field>
+            <v-text-field label="Batch Number" v-model="newProduct.batch"></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
             <v-text-field
@@ -21,9 +21,12 @@
             >
                 <v-date-picker
                     v-model="newProduct.date"
-                    @input="datePicker = false"
+                    @update:modelValue="datePicker = false"
                 ></v-date-picker>
             </v-menu>
+        </v-col>
+        <v-col cols="12" md="4">
+        <v-btn color="primary" @click="addProduct">Add Product</v-btn>
         </v-col>
     </v-row>
 </template>
@@ -33,7 +36,7 @@ import { ref } from 'vue';
 
 const newProduct = ref({
     name: '',
-    batchNumber: '',
+    batch: '',
     date: ''
 });
 
