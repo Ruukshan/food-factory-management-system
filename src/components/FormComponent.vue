@@ -1,14 +1,14 @@
 <template>
     <v-row>
         <v-col cols="12" md="4">
-            <v-text-field lable="Product name" v-model="newProduct.name"></v-text-field>
+            <v-text-field label="Product name" v-model="newProduct.name"></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
             <v-text-field label="Batch Number" v-model="newProduct.batch"></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
             <v-text-field
-                lable="Production Date"
+                label="Production Date"
                 v-model="newProduct.date"
                 pepend-inner-icon="mdi-calendar"
                 readonly
