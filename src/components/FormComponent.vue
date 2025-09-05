@@ -53,7 +53,7 @@ const addProduct = () => {
         emit('add-product', { ...newProduct.value });
         newProduct.value = {
             name: '',
-            batchNumber: '',
+            batch: '',
             date: ''
         };
     }
