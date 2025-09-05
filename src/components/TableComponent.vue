@@ -11,7 +11,6 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps(['products']);
 const emit = defineEmits(['delete-product']);
