@@ -1,9 +1,8 @@
 <template>
-    <v-data-table
+    <v-data-table 
         :headers="headers"
         :items="products"
-        class="mt-4"
-    >
+        >
         <template v-slot:item.actions="{ item }">
             <v-btn color="error" small @click="emit('delete-product', item)">Delete</v-btn>
         </template>
@@ -21,4 +20,5 @@ const headers = [
     { title: 'Production Date', key: 'date' },
     { title: 'Actions', key: 'actions' },
 ];
+
 </script>

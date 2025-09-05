@@ -34,26 +34,28 @@ const vuetify = createVuetify({
     },
   },
   defaults: {
-    VTextFields: {
+    VTextField: {
       variant: 'outlined',
       color: 'primary',
       density: 'compact',
-      prependInnerIcon: 'mdi-format-data'
+      prependInnerIcon: 'mdi-format-data',
     },
     VMenu: {
-        transition: 'scale-transition',
-        offsetY: true,
-        mainWidth: '290px',
-        closeOnContentClick: false,
+      transition: 'scale-transition',
+      offsetY: true,
+      minWidth: '290px',
+      closeOnContentClick: false,
     },
     VBtn: {
-        rounded: 'lg',
-        headers: [
-            { title: 'Product Name', key: 'name' },
-            { title: 'Batch Number', key: 'batch' },
-            { title: 'Production Date', key: 'date' },
-            { title: 'Actions', key: 'actions' },
-        ],
+      rounded: 'lg',
+      elevation: 2,
+      height: '60px',
+      minWidth: '200px',
+    },
+    VDataTable: {
+      class: 'elevation-1',
     },
   },
 });
+
+export default vuetify;
