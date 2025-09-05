@@ -4,6 +4,7 @@
       <v-container>
         <v-card>
           <v-card-title>Food Factory Management System - Production</v-card-title>
+          <v-divider></v-divider>
           <v-card-text>
             <FormComponent @add-product="addProduct" />
             <TableComponent :products="products" @delete-product="deleteProduct" />
@@ -61,4 +62,5 @@
   justify-content: center;
   margin-top: 20px;
 }
+
 </style>

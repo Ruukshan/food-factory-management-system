@@ -2,6 +2,7 @@
     <v-data-table 
         :headers="headers"
         :items="products"
+        class="custom-table"
         >
         <template v-slot:item.actions="{ item }">
             <v-btn color="error" small @click="emit('delete-product', item)">Delete</v-btn>
@@ -22,3 +23,7 @@ const headers = [
 ];
 
 </script>
+
+<style scoped>
+
+</style>
