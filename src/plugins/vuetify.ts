@@ -54,27 +54,13 @@ const vuetify = createVuetify({
       height: '50px',
       minWidth: '200px',
     },
-    VDataTable: {
+    VTable: {
       class: 'elevation-2 custom-table',
       style: {
-        backgroundColor: '#FFFFFF !important',
-        border: '1px solid #6200EE !important',
-        borderRadius: '4px !important',
-        overflow: 'hidden !important',
-      },
-    },
-    '.custom-table .v-data-table__thead th': {
-      style: {
-        fontWeight: 'bold !important' as const,
-        color: '#6200EE !important',
-        padding: '12px !important',
-        backgroundColor: '#E0F7FA !important' as any,
-      },
-    },
-    '.custom-table .v-data-table__tbody td': {
-      style: {
-        padding: '12px !important',
-        borderBottom: '1px solid #E0E0E0 !important',
+        backgroundColor: '#FFFFFF',
+        borderRadius: '4px',
+        border: '1px solid #E0E0E0',
+        overFlow: 'hidden',
       },
     },
     VCardTitle: {
