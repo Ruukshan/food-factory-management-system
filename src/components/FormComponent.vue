@@ -7,13 +7,7 @@
             <v-text-field label="Batch Number" v-model="newProduct.batch"></v-text-field>
         </v-col>
         <v-col cols="12" md="3">
-            <v-menu
-                v-model="datePicker"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-            >
+            <v-menu v-model="datePicker">
                 <template v-slot:activator="{ props }">
                     <v-text-field
                         v-bind="props"
