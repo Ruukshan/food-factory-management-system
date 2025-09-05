@@ -36,22 +36,21 @@ const headers = [
 
 <style scoped>
 .custom-table th {
-  font-weight: bold !important;
-  color: #6200EE !important;
-  padding: 12px !important;
-  background-color: #E0F7FA !important;
+  font-weight: bold;
+  color: #212121;
+  background-color: #71d5e2;
+  border-right: 1px solid #E0E0E0;
+  border-bottom: 1px solid #E0E0E0;
+  padding: 12px;
+  text-align: center;
 }
 
 .custom-table td {
-  padding: 12px !important;
-  border-bottom: 1px solid #E0E0E0 !important;
+  padding: 8px;
+  font-size: 14px;
+  color: #333333;
+  border-bottom: 1px solid #E0E0E0;
+  border-right: 1px solid #E0E0E0;
 }
 
-.custom-table tr:nth-child(even) {
-  background-color: #F5F5F5 !important;
-}
-
-.custom-table tr:hover {
-  background-color: #BBDEFB !important;
-}
 </style>

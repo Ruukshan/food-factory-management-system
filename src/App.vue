@@ -3,8 +3,10 @@
     <v-main>
       <v-container>
         <v-card>
-          <v-card-title>Food Factory Management System - Production</v-card-title>
-          <v-divider></v-divider>
+          <v-card-item class="title-container">
+            <div class="blue-rectangle"></div>
+            <v-card-title>Food Factory Management System - Production</v-card-title>
+          </v-card-item>
           <v-card-text>
             <FormComponent @add-product="addProduct" />
             <TableComponent :products="products" @delete-product="deleteProduct" />
@@ -56,7 +58,20 @@
 </script>
 
 <style scoped>
+.title-container {
+  position: relative;
+  padding: 16px;
+}
 
+.blue-rectangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: #2196F3;
+  z-index: 0;
+}
 .submit-container {
   display: flex;
   justify-content: center;
