@@ -71,14 +71,16 @@ const dateRules = [
     v => !!v || 'Date is required',
 ];
 
-const addProduct = () => {
-    if (newProduct.value.name && newProduct.value.batch && newProduct.value.date) {
+const addProduct = async () => {
+    const { valid } = await form.value.validate();
+    if (valid) {
         emit('add-product', { ...newProduct.value });
         newProduct.value = {
             name: '',
             batch: '',
             date: ''
         };
+        form.value.resetValidation();
     }
 };
 </script>
