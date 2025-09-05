@@ -71,9 +71,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { db } from '../firebase'
 import { collection, addDoc } from 'firebase/firestore'
 
-/* -----------------------------
-   FORM STATE
------------------------------ */
+
 const product = reactive({
   productName: '',
   batchNumber: '',
@@ -84,16 +82,12 @@ const products = ref([])
 const isValid = ref(false)
 const form = ref(null)
 
-/* -----------------------------
-   VALIDATION RULES
------------------------------ */
+/*Validation*/
 const rules = {
   required: v => !!v || 'This field is required',
 }
 
-/* -----------------------------
-   LOCAL STORAGE HANDLING
------------------------------ */
+/* Local Storage */
 onMounted(() => {
   const saved = localStorage.getItem('products')
   if (saved) products.value = JSON.parse(saved)
@@ -103,9 +97,7 @@ const saveLocal = () => {
   localStorage.setItem('products', JSON.stringify(products.value))
 }
 
-/* -----------------------------
-   CRUD OPERATIONS
------------------------------ */
+/* Operations */
 const addProduct = () => {
   if (!form.value.validate()) return
   products.value.push({ ...product })
