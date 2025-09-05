@@ -67,66 +67,70 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { db } from '../firebase'
-import { collection, addDoc } from 'firebase/firestore'
-
+import { ref, reactive, onMounted } from "vue";
+import { db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 const product = reactive({
-  productName: '',
-  batchNumber: '',
-  productionDate: '',
-})
+  productName: "",
+  batchNumber: "",
+  productionDate: "",
+});
 
-const products = ref([])
-const isValid = ref(false)
-const form = ref(null)
+const products = ref([]);
+const isValid = ref(false);
+const form = ref(null);
 
 /*Validation*/
 const rules = {
-  required: v => !!v || 'This field is required',
-}
+  required: (v) =>
+    (v !== null && v !== undefined && String(v).trim() !== "") ||
+    "This field is required",
+};
 
 /* Local Storage */
 onMounted(() => {
-  const saved = localStorage.getItem('products')
-  if (saved) products.value = JSON.parse(saved)
-})
+  const saved = localStorage.getItem("products");
+  if (saved) products.value = JSON.parse(saved);
+});
 
 const saveLocal = () => {
-  localStorage.setItem('products', JSON.stringify(products.value))
-}
+  localStorage.setItem("products", JSON.stringify(products.value));
+};
 
 /* Operations */
 const addProduct = () => {
-  if (!form.value.validate()) return
-  products.value.push({ ...product })
-  saveLocal()
-  clearForm()
-}
+  // Validate the form and update isValid
+  const valid = form.value.validate();
+  isValid.value = valid;
+  if (!valid) return;
+  products.value.push({ ...product });
+  saveLocal();
+  clearForm();
+};
 
 const clearForm = () => {
-  product.productName = ''
-  product.batchNumber = ''
-  product.productionDate = ''
-  form.value.resetValidation()
-}
+  product.productName = "";
+  product.batchNumber = "";
+  product.productionDate = "";
+  form.value.resetValidation();
+};
 
 const deleteProduct = (index) => {
-  products.value.splice(index, 1)
-  saveLocal()
-}
+  products.value.splice(index, 1);
+  saveLocal();
+};
 
 const submitToFirebase = async () => {
   try {
     for (const item of products.value) {
-      await addDoc(collection(db, 'production'), item)
+      await addDoc(collection(db, "production"), item);
     }
-    alert('✅ Data submitted to Firebase!')
-    products.value = []
-    localStorage.removeItem('products')
+    alert("✅ Data submitted to Firebase!");
+    products.value = [];
+    localStorage.removeItem("products");
   } catch (error) {
-    console.error('❌ Error adding document: ', error)
+    console.error("❌ Error adding document: ", error);
   }
-}
+};
 </script>
