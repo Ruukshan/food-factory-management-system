@@ -18,20 +18,20 @@
     </v-row>
     <v-row>
         <v-col cols="12" md="9">
-            <v-menu v-model="datePicker">
-                <template v-slot:activator="{ props }">
+            <v-menu v-model="datePicker" :close-on-content-click="true">
+                <template v-slot:activator>
                     <v-text-field
-                        v-bind="props"
                         v-model="newProduct.date"
                         label="Production Date"
-                        prepend-inner-icon="mdi-calendar"
+                        append-inner-icon="mdi-calendar"
+                        @click:append-inner.stop="openCalendar"
                         readonly
                         :rules="dateRules"
                     ></v-text-field>
                 </template>
                 <v-date-picker
-                    v-model="newProduct.date"
-                    @input="datePicker = false"
+                    v-model="date"
+                    @update:model-value="onDateSelected"
                 ></v-date-picker>
             </v-menu>
         </v-col>
@@ -53,7 +53,19 @@ const newProduct = ref({
     date: ''
 });
 
+const openCalendar = () => {
+  datePicker.value = true;
+};
+
 const datePicker = ref(false);
+
+const date = ref(null);
+
+const onDateSelected = (val) => {
+    const d = new Date(val);
+    newProduct.value.date = d.toISOString().split('T')[0];
+    datePicker.value = false;
+}
 
 const emit = defineEmits(['add-product']);
 
