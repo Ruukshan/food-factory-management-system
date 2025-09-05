@@ -2,7 +2,7 @@
     <v-table class="custom-table">
         <thead>
             <tr>
-                <th v-for="header in headers" :key="header.key" class="text-left">
+                <th v-for="header in headers" :key="header.key">
                     {{ header.title }}
                 </th>
             </tr>
@@ -36,21 +36,23 @@ const headers = [
 
 <style scoped>
 .custom-table th {
-  font-weight: bold;
-  color: #212121;
-  background-color: #71d5e2;
-  border-right: 1px solid #E0E0E0;
-  border-bottom: 1px solid #E0E0E0;
-  padding: 12px;
-  text-align: center;
+    color: #212121;
+    font-size: 16px;
+    font-weight: bold !important;
+    text-align: center !important;
+    background-color: #71d5e2;
+    border-right: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+    padding: 12px;
 }
 
 .custom-table td {
-  padding: 8px;
-  font-size: 14px;
-  color: #333333;
-  border-bottom: 1px solid #E0E0E0;
-  border-right: 1px solid #E0E0E0;
+    padding: 8px;
+    font-size: 16px;
+    text-align: center;
+    color: #333333;
+    border-bottom: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0;
 }
 
 </style>

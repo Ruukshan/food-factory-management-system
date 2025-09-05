@@ -21,7 +21,7 @@ const vuetify = createVuetify({
     themes: {
       light: {
         colors: {
-          primary: '#6200EE',
+          primary: '#1976D2',
           secondary: '#03DAC6',
           background: '#FFFFFF',
           accent: '#FFC107',
@@ -38,7 +38,6 @@ const vuetify = createVuetify({
   defaults: {
     VTextField: {
       variant: 'outlined',
-      color: 'primary',
       density: 'compact',
       prependInnerIcon: 'mdi-format-data',
     },
@@ -47,6 +46,12 @@ const vuetify = createVuetify({
       offsetY: true,
       minWidth: '100px',
       closeOnContentClick: false,
+    },
+    VDatePicker: {
+      color: 'primary',
+      headerColor: 'primary',
+      headerTextColor: 'white',
+      headerIconColor: 'white',
     },
     VBtn: {
       rounded: 'lg',
