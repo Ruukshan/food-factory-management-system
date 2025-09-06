@@ -8,25 +8,9 @@
       <v-card-text>
         <!-- FORM -->
         <v-form ref="form" v-model="isValid">
-          <v-text-field
-            v-model="product.productName"
-            label="Product Name"
-            :rules="[rules.required]"
-            clearable
-          />
-          <v-text-field
-            v-model="product.batchNumber"
-            label="Batch Number"
-            :rules="[rules.required]"
-            clearable
-          />
-          <v-text-field
-            v-model="product.productionDate"
-            label="Production Date"
-            type="date"
-            :rules="[rules.required]"
-            clearable
-          />
+          <v-text-field v-model="product.productName" label="Product Name" :rules="[rules.required]" clearable />
+          <v-text-field v-model="product.batchNumber" label="Batch Number" :rules="[rules.required]" clearable />
+          <v-text-field v-model="product.productionDate" label="Production Date" type="date" :rules="[rules.required]" clearable />
 
           <div class="d-flex justify-space-between mt-2">
             <v-btn color="green" @click="addProduct">Add</v-btn>
@@ -50,9 +34,7 @@
               <td>{{ item.batchNumber }}</td>
               <td>{{ item.productionDate }}</td>
               <td>
-                <v-btn color="red" size="small" @click="confirmDelete(index)">
-                  Delete
-                </v-btn>
+                <v-btn color="red" size="small" @click="confirmDelete(index)">Delete</v-btn>
               </td>
             </tr>
           </tbody>
@@ -62,16 +44,6 @@
       <v-card-actions class="justify-center">
         <v-btn color="blue" @click="submitToFirebase">Submit</v-btn>
       </v-card-actions>
-
-      <!-- Snackbar for delete confirmation -->
-      <v-snackbar v-model="snackbar.show" :timeout="4000" color="info" top>
-        {{ snackbar.text }}
-
-        <template #actions>
-          <v-btn color="red" text @click="deleteConfirmed">Confirm</v-btn>
-          <v-btn color="grey" text @click="cancelDelete">Cancel</v-btn>
-        </template>
-      </v-snackbar>
     </v-card>
   </v-container>
 </template>
@@ -80,6 +52,9 @@
 import { ref, reactive, onMounted } from "vue";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { useSnackbar } from "../helpers/utils/snackbar"; // ✅ snackbar helper
+
+const { show } = useSnackbar();
 
 const product = reactive({
   productName: "",
@@ -90,20 +65,13 @@ const product = reactive({
 const products = ref([]);
 const isValid = ref(false);
 const form = ref(null);
-const snackbar = reactive({
-  show: false,
-  text: "",
-  indexToDelete: null,
-});
 
 /* Validation */
 const rules = {
-  required: (v) =>
-    (v !== null && v !== undefined && String(v).trim() !== "") ||
-    "This field is required",
+  required: (v) => (v && String(v).trim() !== "") || "This field is required",
 };
 
-/* Local Storage load */
+/* Load from local storage */
 onMounted(() => {
   const saved = localStorage.getItem("products");
   if (saved) products.value = JSON.parse(saved);
@@ -113,27 +81,19 @@ const saveLocal = () => {
   localStorage.setItem("products", JSON.stringify(products.value));
 };
 
-/* Operations */
+/* Add product */
 const addProduct = () => {
-  // Validate form properly
-  if (form.value) {
-    form.value.validate(); // triggers validation, updates isValid
-  }
-  if (!isValid.value) return; // stop if form is invalid
+  if (form.value) form.value.validate();
+  if (!isValid.value) return;
 
-  // Additional check to ensure no nulls, avoid saving empty strings
-  if (
-    !product.productName.trim() ||
-    !product.batchNumber.trim() ||
-    !product.productionDate.trim()
-  )
-    return;
+  if (!product.productName.trim() || !product.batchNumber.trim() || !product.productionDate.trim()) return;
 
   products.value.push({ ...product });
   saveLocal();
   clearForm();
 };
 
+/* Clear form */
 const clearForm = () => {
   product.productName = "";
   product.batchNumber = "";
@@ -141,33 +101,36 @@ const clearForm = () => {
   if (form.value) form.value.resetValidation();
 };
 
-/* Deletion with confirmation */
+/* Delete with snackbar confirmation */
 const confirmDelete = (index) => {
-  snackbar.text = "Are you sure you want to delete this product?";
-  snackbar.indexToDelete = index;
-  snackbar.show = true;
-};
-
-const deleteConfirmed = () => {
-  const index = snackbar.indexToDelete;
-  if (index !== null && index >= 0 && index < products.value.length) {
-    products.value.splice(index, 1);
-    saveLocal();
-  }
-  snackbar.show = false;
-  snackbar.indexToDelete = null;
-};
-
-const cancelDelete = () => {
-  snackbar.show = false;
-  snackbar.indexToDelete = null;
+  show("Are you sure you want to delete this product?", {
+    color: "info",
+    timeout: 2000,
+    actions: [
+      {
+        label: "Confirm",
+        color: "red",
+        onClick: () => {
+          if (index !== null && index >= 0 && index < products.value.length) {
+            products.value.splice(index, 1);
+            saveLocal();
+          }
+        },
+      },
+      {
+        label: "Cancel",
+        color: "white",
+        onClick: () => {},
+      },
+    ],
+  });
 };
 
 /* Submit to Firebase */
 const submitToFirebase = async () => {
   try {
     for (const item of products.value) {
-      await addDoc(collection(db, "production"), item);
+      await addDoc(collection(db, "osanda_production"), item);
     }
     alert("Data submitted to Firebase!");
     products.value = [];
