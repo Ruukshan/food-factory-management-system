@@ -11,7 +11,7 @@
             <FormComponent @add-product="addProduct" />
             <TableComponent :products="products" @delete-product="confirmDelete" />
             <div class="submit-container">
-              <v-btn color="primary" @click="submit">Submit</v-btn>
+              <v-btn color="primary" @click="confirmSubmit">Submit</v-btn>
             </div>
           </v-card-text>
         </v-card>
@@ -29,6 +29,13 @@
       :message="`Are you sure you want to delete this product?`"
       title="Delete Confirmation"
       @confirm="deleteProduct"
+    />
+
+    <confirmDialog
+      v-model="submitDialog.visible"
+      :message="`Are you sure want to submit all products?`"
+      title="Submit Confirmation"
+      @confirm="submit"
     />
   </v-app>
 </template>
@@ -55,6 +62,9 @@ const confirmDialog = ref({
   product: null,
 });
 
+const submitDialog = ref({
+  visible: false,
+})
 
 onMounted(() => {
   const storedProducts = localStorage.getItem('products');
@@ -97,6 +107,10 @@ const deleteProduct = () => {
     saveToStorage();
     showSnackbar('Product deleted successfully!', 'error');
   }
+};
+
+const confirmSubmit = () => {
+  submitDialog.value.visible = true;
 };
 
 const submit = async () => {
