@@ -40,19 +40,26 @@ const vuetify = createVuetify({
       variant: 'outlined',
       density: 'compact',
       prependInnerIcon: 'mdi-format-data',
+      style: {
+        fontWeight: 'bold',
+        fontSize: '16px',
+      },
     },
     VMenu: {
       transition: 'scale-transition',
       offsetY: true,
       minWidth: '100px',
       closeOnContentClick: false,
+      style: {
+        position: 'absolute',
+      },
     },
     VDatePicker: {
       color: 'primary',
       headerColor: 'primary',
       headerTextColor: 'white',
       headerIconColor: 'white',
-    },
+    },  
     VBtn: {
       rounded: 'lg',
       elevation: 2,

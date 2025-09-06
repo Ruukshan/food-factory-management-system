@@ -8,7 +8,7 @@
     {{ message }}
 
     <template v-slot:actions>
-        <v-btn color= "white" variant="text" @click="isVisible = false">Close</v-btn>
+        <v-btn color= "white" variant="text" @click="isVisible= false" :style="{ 'min-width': '100px'}">Close</v-btn>
     </template>
   </v-snackbar>
 </template>

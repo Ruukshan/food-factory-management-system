@@ -18,7 +18,7 @@
     </v-row>
     <v-row>
         <v-col cols="12" md="9">
-            <v-menu v-model="datePicker" :close-on-content-click="true">
+            <v-menu v-model="datePicker" :close-on-content-click="true" location="bottom end" :offset="15" :attach="true">
                 <template v-slot:activator>
                     <v-text-field
                         v-model="newProduct.date"
