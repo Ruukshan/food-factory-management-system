@@ -9,7 +9,7 @@
           </v-card-item>
           <v-card-text>
             <FormComponent @add-product="addProduct" />
-            <TableComponent :products="products" @delete-product="deleteProduct" />
+            <TableComponent :products="products" @delete-product="confirmDelete" />
             <div class="submit-container">
               <v-btn color="primary" @click="submit">Submit</v-btn>
             </div>
@@ -23,6 +23,13 @@
       :message="snackbar.message"
       :color="snackbar.color"
     />
+
+    <confirmDialog
+      v-model="confirmDialog.visible"
+      :message="`Are you sure you want to delete this product?`"
+      title="Delete Confirmation"
+      @confirm="deleteProduct"
+    />
   </v-app>
 </template>
 
@@ -31,13 +38,21 @@ import { ref, onMounted } from 'vue';
 import FormComponent from './components/FormComponent.vue';
 import TableComponent from './components/TableComponent.vue';
 import Snackbar from './helpers/utils/Snackbar.vue';
+import ConfirmDialog from './helpers/utils/ConfirmDialog.vue';
 
 const products = ref([]);
+
 const snackbar = ref({
   visible: false,
   message: '',
   color: 'success',
 });
+
+const confirmDialog = ref({
+  visible: false,
+  product: null,
+});
+
 
 onMounted(() => {
   const storedProducts = localStorage.getItem('products');
@@ -62,8 +77,19 @@ const addProduct = (product) => {
   showSnackbar('Product added successfully!', 'success');
 };
 
-const deleteProduct = (product) => {
-  const index = products.value.findIndex(p => p.name === product.name && p.batch === product.batch && p.date === product.date);
+const confirmDelete = (product) => {
+  confirmDialog.value.product = product;
+  confirmDialog.value.visible = true;
+}
+
+const deleteProduct = () => {
+  const product = confirmDialog.value.product;
+  const index = products.value.findIndex(
+    (p) => 
+      p.name === product.name && 
+      p.batch === product.batch && 
+      p.date === product.date
+  );
   if (index > -1) {
     products.value.splice(index, 1);
     saveToStorage();
