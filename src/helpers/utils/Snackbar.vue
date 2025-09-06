@@ -25,7 +25,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const isVisible = ref(false);
+const isVisible = ref(props.modelValue);
 
 watch(() => props.modelValue, (val) => {
     isVisible.value = val;

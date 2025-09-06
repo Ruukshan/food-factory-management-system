@@ -35,6 +35,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from './services/firebase';
 import FormComponent from './components/FormComponent.vue';
 import TableComponent from './components/TableComponent.vue';
 import Snackbar from './helpers/utils/Snackbar.vue';
@@ -97,11 +99,31 @@ const deleteProduct = () => {
   }
 };
 
-const submit = () => {
-  console.log('Submitted data: ', products.value);
-  showSnackbar('Data submitted successfully!', 'success');
-}
+const submit = async () => {
+  try {
+    if (!products.value.length) {
+      showSnackbar('No products to submit', 'error');
+      return
+    }
 
+    for (const product of products.value) {
+      await addDoc(collection(db, 'rukshan_productions'), {
+        name: product.name,
+        batch: product.batch,
+        date: product.date,
+      });
+    }
+
+    showSnackbar('Products submitted successfully!', 'success');
+
+    localStorage.removeItem('products');
+    products.value = [];
+
+  } catch (error) {
+    console.error('Error submitting products:', error);
+    showSnackbar('Error submitting products', 'error');
+  }
+};
 </script>
 
 <style scoped>
