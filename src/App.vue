@@ -17,43 +17,64 @@
         </v-card>
       </v-container>
     </v-main>
+
+    <snackbar
+      v-model="snackbar.visible"
+      :message="snackbar.message"
+      :color="snackbar.color"
+    />
   </v-app>
 </template>
 
 <script setup>
- import { ref, onMounted } from 'vue';
- import FormComponent from './components/FormComponent.vue';
- import TableComponent from './components/TableComponent.vue';
+import { ref, onMounted } from 'vue';
+import FormComponent from './components/FormComponent.vue';
+import TableComponent from './components/TableComponent.vue';
+import Snackbar from './helpers/utils/Snackbar.vue';
 
- const products = ref([]);
- onMounted(() => {
-   const storedProducts = localStorage.getItem('products');
-   if (storedProducts) {
-     products.value = JSON.parse(storedProducts);
-   }
- });
+const products = ref([]);
+const snackbar = ref({
+  visible: false,
+  message: '',
+  color: 'success',
+});
 
- const saveToStorage = () => {
-   localStorage.setItem('products', JSON.stringify(products.value));
- }
+onMounted(() => {
+  const storedProducts = localStorage.getItem('products');
+  if (storedProducts) {
+    products.value = JSON.parse(storedProducts);
+  }
+});
 
- const addProduct = (product) => {
-   products.value.push(product);
-   saveToStorage();
- };
+const saveToStorage = () => {
+  localStorage.setItem('products', JSON.stringify(products.value));
+}
 
- const deleteProduct = (product) => {
-   const index = products.value.findIndex(p => p.name === product.name && p.batch === product.batch && p.date === product.date);
-   if (index > -1) {
-     products.value.splice(index, 1);
-     saveToStorage();
-   }
- };
+const showSnackbar = (message, color = 'success') => {
+  snackbar.value.message = message;
+  snackbar.value.color = color;
+  snackbar.value.visible = true;
+}
 
- const submit = () => {
-   console.log('Submitted data: ', products.value);
-   alert('Data submitted successfully!');
- }
+const addProduct = (product) => {
+  products.value.push(product);
+  saveToStorage();
+  showSnackbar('Product added successfully!', 'success');
+};
+
+const deleteProduct = (product) => {
+  const index = products.value.findIndex(p => p.name === product.name && p.batch === product.batch && p.date === product.date);
+  if (index > -1) {
+    products.value.splice(index, 1);
+    saveToStorage();
+    showSnackbar('Product deleted successfully!', 'error');
+  }
+};
+
+const submit = () => {
+  console.log('Submitted data: ', products.value);
+  showSnackbar('Data submitted successfully!', 'success');
+}
 
 </script>
 
