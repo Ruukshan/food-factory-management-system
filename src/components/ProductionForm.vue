@@ -64,21 +64,12 @@
       </v-card-actions>
 
       <!-- Snackbar for delete confirmation -->
-      <v-snackbar
-        v-model="snackbar.show"
-        :timeout="6000"
-        color="info"
-        top
-      >
+      <v-snackbar v-model="snackbar.show" :timeout="4000" color="info" top>
         {{ snackbar.text }}
 
-        <template v-slot:action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs" @click="deleteConfirmed">
-            Confirm
-          </v-btn>
-          <v-btn color="grey" text v-bind="attrs" @click="snackbar.show = false">
-            Cancel
-          </v-btn>
+        <template #actions>
+          <v-btn color="red" text @click="deleteConfirmed">Confirm</v-btn>
+          <v-btn color="grey" text @click="cancelDelete">Cancel</v-btn>
         </template>
       </v-snackbar>
     </v-card>
@@ -163,6 +154,11 @@ const deleteConfirmed = () => {
     products.value.splice(index, 1);
     saveLocal();
   }
+  snackbar.show = false;
+  snackbar.indexToDelete = null;
+};
+
+const cancelDelete = () => {
   snackbar.show = false;
   snackbar.indexToDelete = null;
 };
