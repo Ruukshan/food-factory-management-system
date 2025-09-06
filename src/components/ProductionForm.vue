@@ -50,7 +50,7 @@
               <td>{{ item.batchNumber }}</td>
               <td>{{ item.productionDate }}</td>
               <td>
-                <v-btn color="red" size="small" @click="deleteProduct(index)">
+                <v-btn color="red" size="small" @click="confirmDelete(index)">
                   Delete
                 </v-btn>
               </td>
@@ -62,6 +62,25 @@
       <v-card-actions class="justify-center">
         <v-btn color="blue" @click="submitToFirebase">Submit</v-btn>
       </v-card-actions>
+
+      <!-- Snackbar for delete confirmation -->
+      <v-snackbar
+        v-model="snackbar.show"
+        :timeout="6000"
+        color="info"
+        top
+      >
+        {{ snackbar.text }}
+
+        <template v-slot:action="{ attrs }">
+          <v-btn color="red" text v-bind="attrs" @click="deleteConfirmed">
+            Confirm
+          </v-btn>
+          <v-btn color="grey" text v-bind="attrs" @click="snackbar.show = false">
+            Cancel
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-card>
   </v-container>
 </template>
@@ -80,15 +99,20 @@ const product = reactive({
 const products = ref([]);
 const isValid = ref(false);
 const form = ref(null);
+const snackbar = reactive({
+  show: false,
+  text: "",
+  indexToDelete: null,
+});
 
-/*Validation*/
+/* Validation */
 const rules = {
   required: (v) =>
     (v !== null && v !== undefined && String(v).trim() !== "") ||
     "This field is required",
 };
 
-/* Local Storage */
+/* Local Storage load */
 onMounted(() => {
   const saved = localStorage.getItem("products");
   if (saved) products.value = JSON.parse(saved);
@@ -100,10 +124,20 @@ const saveLocal = () => {
 
 /* Operations */
 const addProduct = () => {
-  // Validate the form and update isValid
-  const valid = form.value.validate();
-  isValid.value = valid;
-  if (!valid) return;
+  // Validate form properly
+  if (form.value) {
+    form.value.validate(); // triggers validation, updates isValid
+  }
+  if (!isValid.value) return; // stop if form is invalid
+
+  // Additional check to ensure no nulls, avoid saving empty strings
+  if (
+    !product.productName.trim() ||
+    !product.batchNumber.trim() ||
+    !product.productionDate.trim()
+  )
+    return;
+
   products.value.push({ ...product });
   saveLocal();
   clearForm();
@@ -113,24 +147,37 @@ const clearForm = () => {
   product.productName = "";
   product.batchNumber = "";
   product.productionDate = "";
-  form.value.resetValidation();
+  if (form.value) form.value.resetValidation();
 };
 
-const deleteProduct = (index) => {
-  products.value.splice(index, 1);
-  saveLocal();
+/* Deletion with confirmation */
+const confirmDelete = (index) => {
+  snackbar.text = "Are you sure you want to delete this product?";
+  snackbar.indexToDelete = index;
+  snackbar.show = true;
 };
 
+const deleteConfirmed = () => {
+  const index = snackbar.indexToDelete;
+  if (index !== null && index >= 0 && index < products.value.length) {
+    products.value.splice(index, 1);
+    saveLocal();
+  }
+  snackbar.show = false;
+  snackbar.indexToDelete = null;
+};
+
+/* Submit to Firebase */
 const submitToFirebase = async () => {
   try {
     for (const item of products.value) {
       await addDoc(collection(db, "production"), item);
     }
-    alert("✅ Data submitted to Firebase!");
+    alert("Data submitted to Firebase!");
     products.value = [];
     localStorage.removeItem("products");
   } catch (error) {
-    console.error("❌ Error adding document: ", error);
+    console.error("Error adding document: ", error);
   }
 };
 </script>
