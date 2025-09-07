@@ -32,9 +32,11 @@
 
           <div class="d-flex justify-space-between mt-2">
             <v-btn color="green" @click="addProduct">Add</v-btn>
-            <v-btn dark color="orange" @click="clearForm">Clear Form</v-btn>
+            <v-btn color="amber" @click="clearForm">Clear Form</v-btn>
           </div>
         </v-form>
+
+        <v-spacer></v-spacer>
 
         <!-- TABLE -->
         <v-table class="mt-6" density="comfortable">
@@ -46,8 +48,8 @@
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="blue-lighten-5" v-for="(item, index) in products" :key="index">
+          <tbody class="blue-lighten-5">
+            <tr v-for="(item, index) in products" :key="index">
               <td>{{ item.productName }}</td>
               <td>{{ item.batchNumber }}</td>
               <td>{{ item.productionDate }}</td>
