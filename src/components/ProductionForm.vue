@@ -1,13 +1,15 @@
 <template>
   <v-container class="pa-6" max-width="700">
     <v-card elevation="4" class="rounded-lg">
-      <v-card-title class="text-h6 text-center" color="primary white--text">
+      <v-card-title class="text-h6 text-center bg-blue text-white">
         Food Factory Management System – Production
       </v-card-title>
+      <v-spacer></v-spacer>
 
       <v-card-text>
         <!-- FORM -->
         <v-form ref="form" v-model="isValid">
+        
           <v-text-field
             v-model="product.productName"
             label="Product Name"
@@ -37,7 +39,7 @@
         <!-- TABLE -->
         <v-table class="mt-6" density="comfortable">
           <thead>
-            <tr>
+            <tr class="bg-blue-lighten-4">
               <th>Product Name</th>
               <th>Batch Number</th>
               <th>Production Date</th>
@@ -45,7 +47,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in products" :key="index">
+            <tr class="blue-lighten-5" v-for="(item, index) in products" :key="index">
               <td>{{ item.productName }}</td>
               <td>{{ item.batchNumber }}</td>
               <td>{{ item.productionDate }}</td>
@@ -61,6 +63,7 @@
 
       <v-card-actions class="justify-center">
         <v-btn color="blue" @click="submitToFirebase">Submit</v-btn>
+
       </v-card-actions>
     </v-card>
   </v-container>
@@ -70,7 +73,7 @@
 import { ref, reactive, onMounted } from "vue";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { useSnackbar } from "../helpers/utils/snackbar"; 
+import { useSnackbar } from "../helpers/utils/snackbar";
 
 const { show } = useSnackbar();
 
