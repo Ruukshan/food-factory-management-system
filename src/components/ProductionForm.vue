@@ -70,7 +70,7 @@
 import { ref, reactive, onMounted } from "vue";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { useSnackbar } from "../helpers/utils/snackbar"; // ✅ snackbar helper
+import { useSnackbar } from "../helpers/utils/snackbar"; 
 
 const { show } = useSnackbar();
 
