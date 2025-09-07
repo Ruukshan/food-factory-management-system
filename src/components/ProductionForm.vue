@@ -1,20 +1,36 @@
 <template>
   <v-container class="pa-6" max-width="700">
     <v-card elevation="4" class="rounded-lg">
-      <v-card-title class="text-h6 text-center">
+      <v-card-title class="text-h6 text-center" color="primary white--text">
         Food Factory Management System – Production
       </v-card-title>
 
       <v-card-text>
         <!-- FORM -->
         <v-form ref="form" v-model="isValid">
-          <v-text-field v-model="product.productName" label="Product Name" :rules="[rules.required]" clearable />
-          <v-text-field v-model="product.batchNumber" label="Batch Number" :rules="[rules.required]" clearable />
-          <v-text-field v-model="product.productionDate" label="Production Date" type="date" :rules="[rules.required]" clearable />
+          <v-text-field
+            v-model="product.productName"
+            label="Product Name"
+            :rules="[rules.required]"
+            clearable
+          />
+          <v-text-field
+            v-model="product.batchNumber"
+            label="Batch Number"
+            :rules="[rules.required]"
+            clearable
+          />
+          <v-text-field
+            v-model="product.productionDate"
+            label="Production Date"
+            type="date"
+            :rules="[rules.required]"
+            clearable
+          />
 
           <div class="d-flex justify-space-between mt-2">
             <v-btn color="green" @click="addProduct">Add</v-btn>
-            <v-btn color="orange" @click="clearForm">Clear Form</v-btn>
+            <v-btn dark color="orange" @click="clearForm">Clear Form</v-btn>
           </div>
         </v-form>
 
@@ -34,7 +50,9 @@
               <td>{{ item.batchNumber }}</td>
               <td>{{ item.productionDate }}</td>
               <td>
-                <v-btn color="red" size="small" @click="confirmDelete(index)">Delete</v-btn>
+                <v-btn color="red" size="small" @click="confirmDelete(index)"
+                  >Delete</v-btn
+                >
               </td>
             </tr>
           </tbody>
@@ -86,7 +104,12 @@ const addProduct = () => {
   if (form.value) form.value.validate();
   if (!isValid.value) return;
 
-  if (!product.productName.trim() || !product.batchNumber.trim() || !product.productionDate.trim()) return;
+  if (
+    !product.productName.trim() ||
+    !product.batchNumber.trim() ||
+    !product.productionDate.trim()
+  )
+    return;
 
   products.value.push({ ...product });
   saveLocal();
