@@ -1,15 +1,10 @@
 <template>
   <v-snackbar 
     v-model="isVisible" 
-    :color="color" 
-    :timeout="timeout"
-    location="bottom"
+    :color="color"
+    :timeout="timeout" 
     >
     {{ message }}
-
-    <template v-slot:actions>
-        <v-btn color= "white" variant="text" @click="isVisible= false" :style="{ 'min-width': '100px'}">Close</v-btn>
-    </template>
   </v-snackbar>
 </template>
 

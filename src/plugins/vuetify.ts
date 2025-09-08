@@ -46,13 +46,12 @@ const vuetify = createVuetify({
     VBtn: {
       rounded: 'lg',
       elevation: 2,
-      height: '50px',
-      minWidth: '200px',
+      height: '40px',
+      minWidth: '100px',
     },
     VTable: {
-      class: 'elevation-2 custom-table',
+      class: 'custom-table',
       style: {
-        backgroundColor: '#FFFFFF',
         borderRadius: '4px',
         border: '1px solid #FFFFFF',
         overflow: 'hidden',
@@ -61,15 +60,18 @@ const vuetify = createVuetify({
     VCardTitle: {
       style: {
         fontWeight: 'bold',
-        color: '#FFFFFF',
         fontSize: '24px',
         marginBottom: '20px',
         textAlign: 'center',
-        zIndex: 1,
-        position: 'relative',
+      },
+    },
+    VDialog: {
+      width: 400,
+      style: {
+        borderRadius: '10px',
       },
     },
   },
 });
 
-export default vuetify;
+export default vuetify

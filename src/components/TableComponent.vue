@@ -13,7 +13,7 @@
                 <td>{{ item.batch }}</td>
                 <td>{{ item.date }}</td>
                 <td>
-                    <v-btn color="error" small @click="emit('delete-product', item)">Delete</v-btn>
+                    <v-btn color="error" @click="emit('delete-product', item)">Delete</v-btn>
                 </td>
             </tr>
         </tbody>

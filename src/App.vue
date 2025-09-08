@@ -5,7 +5,7 @@
         <v-card>
           <v-card-item class="title-container">
             <div class="blue-rectangle"></div>
-            <v-card-title>Food Factory Management System - Production</v-card-title>
+            <v-card-title class="title-text">Food Factory Management System - Production</v-card-title>
           </v-card-item>
           <v-card-text>
             <FormComponent @add-product="addProduct" />
@@ -92,7 +92,7 @@ const addProduct = (product) => {
 const confirmDelete = (product) => {
   confirmDialog.value.product = product;
   confirmDialog.value.visible = true;
-}
+};
 
 const deleteProduct = () => {
   const product = confirmDialog.value.product;
@@ -155,6 +155,13 @@ const submit = async () => {
   background-color: #2196F3;
   z-index: 0;
 }
+
+.title-text {
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
 .submit-container {
   display: flex;
   justify-content: center;
