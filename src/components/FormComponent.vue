@@ -1,7 +1,7 @@
 <template>
     <v-form ref="form">
     <v-row>
-        <v-col cols="12" md="5">
+        <v-col cols="12" md="6">
             <v-text-field 
                 label="Product name" 
                 v-model="newProduct.name"
@@ -19,7 +19,7 @@
         </v-col>
     </v-row>
     <v-row>
-        <v-col cols="12" md="9">
+        <v-col cols="12" md="8">
             <v-text-field
             v-model="newProduct.date"
             label="Production Date"
@@ -28,8 +28,11 @@
             clearable
           ></v-text-field>          
         </v-col>
-        <v-col cols="12" md="1">
+        <v-col cols="12" md="2">
             <v-btn color="success" @click="addProduct">Add</v-btn>
+        </v-col>
+        <v-col cols="12" md="2">
+            <v-btn color="error" @click="clearForm">Cancel</v-btn>
         </v-col>
     </v-row>
     </v-form>
@@ -76,6 +79,16 @@ const addProduct = async () => {
         await nextTick();
         form.value.resetValidation();
     }
+};
+
+// Function to clear form
+const clearForm = () => {
+    newProduct.value = {
+        name: '',
+        batch: '',
+        date: ''
+    };
+    form.value.resetValidation();
 };
 </script>
 
