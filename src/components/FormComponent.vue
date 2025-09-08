@@ -40,6 +40,7 @@ import { nextTick, ref } from 'vue';
 
 const form = ref(null);
 
+// Object for hold product data
 const newProduct = ref({
     name: '',
     batch: '',
@@ -48,6 +49,7 @@ const newProduct = ref({
 
 const emit = defineEmits(['add-product']);
 
+// Validation rules for form fields
 const nameRules = [
     v => !!v || 'Name is required',
 ];
@@ -61,6 +63,7 @@ const dateRules = [
     v => !!v || 'Date is required',
 ];
 
+// Function to add product
 const addProduct = async () => {
     const { valid } = await form.value.validate();
     if (valid) {

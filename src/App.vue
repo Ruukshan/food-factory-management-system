@@ -49,23 +49,28 @@ import TableComponent from './components/TableComponent.vue';
 import Snackbar from './helpers/utils/Snackbar.vue';
 import ConfirmDialog from './helpers/utils/ConfirmDialog.vue';
 
+// List of products
 const products = ref([]);
 
+// Snackbar
 const snackbar = ref({
   visible: false,
   message: '',
   color: 'success',
 });
 
+// Dialog box for delete confirmation
 const confirmDialog = ref({
   visible: false,
   product: null,
 });
 
+// Dialog box for submit confirmation
 const submitDialog = ref({
   visible: false,
 })
 
+// Load products from local storage 
 onMounted(() => {
   const storedProducts = localStorage.getItem('products');
   if (storedProducts) {
@@ -73,27 +78,32 @@ onMounted(() => {
   }
 });
 
+// Save products to local storage
 const saveToStorage = () => {
   localStorage.setItem('products', JSON.stringify(products.value));
 }
 
+// Show snackbar
 const showSnackbar = (message, color = 'success') => {
   snackbar.value.message = message;
   snackbar.value.color = color;
   snackbar.value.visible = true;
 }
 
+// Add a new product
 const addProduct = (product) => {
   products.value.push(product);
   saveToStorage();
   showSnackbar('Product added successfully!', 'success');
 };
 
+// Confirmation before delete a product
 const confirmDelete = (product) => {
   confirmDialog.value.product = product;
   confirmDialog.value.visible = true;
 };
 
+// Delete the confirmed product
 const deleteProduct = () => {
   const product = confirmDialog.value.product;
   const index = products.value.findIndex(
@@ -109,10 +119,12 @@ const deleteProduct = () => {
   }
 };
 
+// Confirmation before submitting products
 const confirmSubmit = () => {
   submitDialog.value.visible = true;
 };
 
+// Submit all products to Firebase
 const submit = async () => {
   try {
     if (!products.value.length) {

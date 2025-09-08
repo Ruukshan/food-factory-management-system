@@ -22,9 +22,11 @@
 
 <script setup>
 
+// Define props and emits
 const props = defineProps(['products']);
 const emit = defineEmits(['delete-product']);
 
+// Define table headers
 const headers = [
     { title: 'Product Name', key: 'name' },
     { title: 'Batch Number', key: 'batch' },
